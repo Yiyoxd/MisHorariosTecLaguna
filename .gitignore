@@ -1,0 +1,102 @@
+# Archivos de ayuda y documentación
+HELP.md
+
+# Archivos generados por Maven
+target/
+!.mvn/wrapper/maven-wrapper.jar
+!**/src/main/**/target/
+!**/src/test/**/target/
+
+# Archivos generados por Gradle
+.gradle/
+build/
+!**/src/main/**/build/
+!**/src/test/**/build/
+gradle-app.setting
+
+# Configuración de Spring Tool Suite (STS)
+.apt_generated
+.classpath
+.factorypath
+.project
+.settings
+.springBeans
+.sts4-cache
+
+# Configuración de IntelliJ IDEA
+.idea
+*.iws
+*.iml
+*.ipr
+
+# Configuración de NetBeans
+/nbproject/private/
+/nbbuild/
+/dist/
+/nbdist/
+/.nb-gradle/
+
+# Configuración de Eclipse
+.classpath
+.project
+.settings/
+*.launch
+
+# Archivos generados por VS Code
+.vscode/
+
+# Archivos de sistema (macOS)
+.DS_Store
+.AppleDouble
+.LSOverride
+
+# Archivos de sistema (Windows)
+Thumbs.db
+desktop.ini
+
+# Archivos de sistema (Linux)
+*~
+
+# Logs
+*.log
+*.tmp
+hs_err_pid*.log
+
+# Archivos de configuración sensibles
+*.env
+config/*.properties
+config/*.yaml
+*.key
+*.pem
+
+# Archivos de pruebas y resultados
+test-output/
+surefire-reports/
+test-results/
+reports/
+
+# Dependencias locales (Maven, Gradle)
+.m2/
+.gradle/
+
+# Librerías externas
+lib/
+libs/
+
+# Generados por Javadoc
+doc/
+
+# Archivos temporales
+*.swp
+*.swo
+*.bak
+*.orig
+*.rej
+*~
+
+# Archivos de empaquetado
+*.jar
+*.war
+*.ear
+*.zip
+*.tar.gz

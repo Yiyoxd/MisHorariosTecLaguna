@@ -99,7 +99,7 @@
   },
   {
     "nombre": "FUNDAMENTOS DE BASES DE DATOS",
-    "clave": "D13",
+    "clave": "C14",
     "prerequisitos": [
       "B12"
     ],
@@ -107,7 +107,7 @@
   },
   {
     "nombre": "INVESTIGACIÓN DE OPERACIONES",
-    "clave": "E13",
+    "clave": "D13",
     "prerequisitos": [
       "E12",
       "F12"
@@ -138,7 +138,7 @@
   },
   {
     "nombre": "FUNDAMENTOS DE INGENIERÍA DE SOFTWARE",
-    "clave": "C14",
+    "clave": "B15",
     "prerequisitos": [],
     "creditos": 4
   },
@@ -223,6 +223,14 @@
       "B13"
     ],
     "creditos": 5
+  },
+  {
+    "nombre": "TALLER DE SISTEMAS OPERATIVOS",
+    "clave": "E14",
+    "prerequisitos": [
+      "E13"
+    ],
+    "creditos": 4
   },
   {
     "nombre": "INGENIERÍA DE SOFTWARE",
@@ -378,7 +386,7 @@
   },
   {
     "nombre": "ACTIVIDADES COMPLEMENTARIOS",
-    "clave": "ACM",
+    "clave": "A1C",
     "prerequisitos": [],
     "creditos": 5
   },

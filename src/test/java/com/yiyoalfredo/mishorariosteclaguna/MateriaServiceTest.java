@@ -65,7 +65,6 @@ public class MateriaServiceTest {
         String rutaArchivo = "src/test/resources/materias.json";
 
         try {
-            // Lee el contenido del archivo JSON
             String jsonContenido = new String(Files.readAllBytes(Paths.get(rutaArchivo)));
 
             // Inicializa el servicio y carga los datos

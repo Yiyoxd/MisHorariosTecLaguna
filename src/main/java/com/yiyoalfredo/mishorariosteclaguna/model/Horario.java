@@ -40,4 +40,8 @@ public class Horario {
     public String getAula() {
         return aula;
     }
+
+    public String toString() {
+        return horaInicio + ":" + horaFin + "/" + aula;
+    }
 }

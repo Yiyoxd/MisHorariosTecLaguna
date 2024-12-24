@@ -8,11 +8,13 @@ import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 public class MateriaService {
-
-    private final List<Materia> materias;
+    private List<Materia> materias;
+    private static final Map<String, List<Materia>> cache = new HashMap<>();
 
     public MateriaService() {
         this.materias = new ArrayList<>();
@@ -23,7 +25,7 @@ public class MateriaService {
      *
      * @param json JSON que representa una lista de materias.
      */
-    public void cargarMateriasDesdeJson(String json) {
+    private void cargarMateriasDesdeJson(String json) {
         ObjectMapper mapper = new ObjectMapper();
         try {
             List<Materia> materiasCargadas = mapper.readValue(json, new TypeReference<List<Materia>>() {});
@@ -34,14 +36,22 @@ public class MateriaService {
     }
 
     /**
-     * Carga las materias desde un archivo JSON.
+     * Carga las materias desde un archivo JSON con soporte para caché.
      *
      * @param rutaArchivo Ruta al archivo JSON.
      */
     public void cargarMateriasDesdeArchivo(String rutaArchivo) {
+        if (cache.containsKey(rutaArchivo)) {
+            materias = cache.get(rutaArchivo); // Usar datos cacheados
+            return;
+        }
+
         try {
             String jsonContenido = new String(Files.readAllBytes(Paths.get(rutaArchivo)));
-            cargarMateriasDesdeJson(jsonContenido);
+            ObjectMapper mapper = new ObjectMapper();
+            List<Materia> materiasCargadas = mapper.readValue(jsonContenido, new TypeReference<List<Materia>>() {});
+            cache.put(rutaArchivo, materiasCargadas);
+            materias = new ArrayList<>(materiasCargadas);
         } catch (IOException e) {
             throw new RuntimeException("Error al cargar las materias desde el archivo: " + rutaArchivo, e);
         }
@@ -53,6 +63,15 @@ public class MateriaService {
      * @return Lista de materias cargadas.
      */
     public List<Materia> obtenerMaterias() {
-        return new ArrayList<>(materias); // Devuelve una copia para proteger la lista interna
+        return materias;
+    }
+
+    /**
+     * Limpia la caché para un archivo específico o toda la caché si el argumento es null.
+     *
+     * @param rutaArchivo Ruta al archivo JSON o null para limpiar toda la caché.
+     */
+    public static void limpiarCache(String rutaArchivo) {
+        cache.remove(rutaArchivo);
     }
 }

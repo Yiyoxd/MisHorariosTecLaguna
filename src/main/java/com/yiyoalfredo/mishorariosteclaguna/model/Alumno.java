@@ -10,6 +10,7 @@ import java.util.Objects;
 public class Alumno {
     private String nombre;
     private String numControl;
+    private Carrera carrera;
     private List<String> materiasCursadas;
 
     public Alumno() {
@@ -20,9 +21,11 @@ public class Alumno {
     public Alumno(
             @JsonProperty("nombre") String nombre,
             @JsonProperty("numControl") String numControl,
+            @JsonProperty("carrera") Carrera carrera,
             @JsonProperty("materiasCursadas") List<String> materiasCursadas) {
         this.nombre = nombre;
         this.numControl = numControl;
+        this.carrera = carrera;
         this.materiasCursadas = materiasCursadas == null ? new ArrayList<>() : materiasCursadas;
     }
 

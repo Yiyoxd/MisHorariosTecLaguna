@@ -36,6 +36,12 @@
     "creditos": 4
   },
   {
+    "nombre": "TUTORIA",
+    "clave": "T11",
+    "prerequisitos": [],
+    "creditos": 0
+  },
+  {
     "nombre": "CÁLCULO INTEGRAL",
     "clave": "A12",
     "prerequisitos": [
@@ -303,7 +309,7 @@
     "creditos": 5
   },
   {
-    "nombre": "COMUNICACIÓN Y ENRUTAMIENTO DE REDES DE DATOS",
+    "nombre": "CONMUTACION Y ENRUTAMIENTO EN REDES DE DATOS",
     "clave": "E17",
     "prerequisitos": [
       "D16"

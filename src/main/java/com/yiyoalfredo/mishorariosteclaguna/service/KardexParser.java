@@ -45,7 +45,7 @@ public class KardexParser {
     }
 
     private List<Materia> extractMaterias(Document document, Carrera carrera) {
-        Map<String, Materia> materiasCarrera = MateriaHorarioCache.getMapMaterias(carrera);
+        Map<String, Materia> materiasCarrera = MateriaCarreraCache.getMapMaterias(carrera);
         List<Materia> materias = new ArrayList<>();
         Element table = document.getElementById("MainContent_GridView1");
 

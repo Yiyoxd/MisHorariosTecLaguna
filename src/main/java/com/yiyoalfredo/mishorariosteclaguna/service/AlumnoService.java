@@ -6,6 +6,9 @@ import com.yiyoalfredo.mishorariosteclaguna.model.Materia;
 
 import java.io.File;
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Map;
 
 public class AlumnoService {
     private final ObjectMapper mapper;
@@ -30,5 +33,27 @@ public class AlumnoService {
         }
 
         return 0;
+    }
+
+    public static Map<String, Materia> getMapMateriasFaltantes(Alumno alu) {
+        List<Materia> cursadas = alu.getMateriasCursadas();
+        Map<String, Materia> todas = MateriaCarreraCache.getMapMateriasCopy(alu.getCarrera());
+
+        for (Materia materia : cursadas) {
+            todas.remove(materia.getClave());
+        }
+
+        return todas;
+    }
+
+    public static List<Materia> getListMateriasFaltantes(Alumno alu) {
+        List<Materia> cursadas = alu.getMateriasCursadas();
+        Map<String, Materia> todas = MateriaCarreraCache.getMapMateriasCopy(alu.getCarrera());
+
+        for (Materia materia : cursadas) {
+            todas.remove(alu.getCarrera());
+        }
+
+        return new ArrayList<>(todas.values());
     }
 }

@@ -16,27 +16,23 @@ import java.time.LocalTime;
 import java.util.*;
 
 public class MateriaHorarioService {
-    List<MateriaHorario> materiaHorarios;
-
-    public MateriaHorarioService() {
-        materiaHorarios = new ArrayList<>();
-    }
 
     public List<MateriaHorario> cargarMateriasDesdeHTML(String htmlFilePath, Carrera carrera) throws IOException {
         Document doc = Jsoup.parse(new File(htmlFilePath), "UTF-8");
         List<MateriaHorario> materiasClase = new ArrayList<>();
-        Map<String, Materia> materias = MateriaHorarioCache.getMapMaterias(carrera);
+        Map<String, Materia> materias = MateriaCarreraCache.getMapMaterias(carrera);
 
         Elements rows = doc.select("table tbody tr");
-        for (Element row : rows) {
-            Elements cells = row.select("td");
-            String clave = cells.get(1).text().trim().substring(0, 3);
+        for (int i = 1; i < rows.size(); i++) {
+            Elements cells = rows.get(i).select("td");
+            String grupo = cells.get(1).text().trim();
+            String clave = grupo.substring(0, 3);
 
             Materia materia = materias.get(clave);
             Horario[] horarios = extractHorarios(cells);
             String maestro = cells.get(7).text().trim();
 
-            MateriaHorario materiaHorario = new MateriaHorario(materia, horarios, maestro);
+            MateriaHorario materiaHorario = new MateriaHorario(materia, horarios, maestro, grupo);
             materiasClase.add(materiaHorario);
         }
 

@@ -2,8 +2,9 @@ package com.yiyoalfredo.mishorariosteclaguna;
 
 import com.yiyoalfredo.mishorariosteclaguna.model.Alumno;
 import com.yiyoalfredo.mishorariosteclaguna.model.Materia;
+import com.yiyoalfredo.mishorariosteclaguna.service.AlumnoService;
 import com.yiyoalfredo.mishorariosteclaguna.service.KardexParser;
-import com.yiyoalfredo.mishorariosteclaguna.service.MateriaHorarioCache;
+import com.yiyoalfredo.mishorariosteclaguna.service.MateriaCarreraCache;
 
 import java.io.IOException;
 import java.util.*;
@@ -14,9 +15,8 @@ public class MateriasFaltantesTest {
     private static final int PORCENTAJE_70 = (int)(0.7 * TOTAL_CREDITOS);
 
     public static void main(String[] args) throws IOException {
-        KardexParser kp = new KardexParser();
-        Alumno alu = kp.parseKardex("C:\\Users\\yiyoa\\Downloads\\Yiyo\\frmKardex.aspx.html");
-        Map<String, Materia> faltantes = getMapMateriasFaltantes(alu);
+        Alumno alu = new KardexParser().parseKardex("C:\\Users\\yiyoa\\Downloads\\Yiyo\\frmKardex.aspx.html");
+        Map<String, Materia> faltantes = AlumnoService.getMapMateriasFaltantes(alu);
 
         System.out.println("Materias que se pueden cargar :");
         for (var materia : faltantes.entrySet()) {
@@ -32,27 +32,5 @@ public class MateriasFaltantesTest {
                 System.out.println("-------------------------------- \n");
             }
         }
-    }
-
-    public static Map<String, Materia> getMapMateriasFaltantes(Alumno alu) {
-        List<Materia> cursadas = alu.getMateriasCursadas();
-        Map<String, Materia> todas = MateriaHorarioCache.getMapMateriasCopy(alu.getCarrera());
-
-        for (Materia materia : cursadas) {
-            todas.remove(materia.getClave());
-        }
-
-        return todas;
-    }
-
-    public static List<Materia> getListMateriasFaltantes(Alumno alu) {
-        List<Materia> cursadas = alu.getMateriasCursadas();
-        Map<String, Materia> todas = MateriaHorarioCache.getMapMateriasCopy(alu.getCarrera());
-
-        for (Materia materia : cursadas) {
-            todas.remove(alu.getCarrera());
-        }
-
-        return new ArrayList<>(todas.values());
     }
 }

@@ -9,13 +9,12 @@ import java.util.*;
 public class MateriaCarreraCache {
     private static final Map<Carrera, List<Materia>> LIST_CARRERAS;
     private static final Map<Carrera, Map<String, Materia>> MAP_CARRERAS;
-
     private MateriaCarreraCache() {}
 
     static {
         LIST_CARRERAS = new HashMap<>();
         MAP_CARRERAS = new HashMap<>();
-        agregarCarreras("src/main/resources/materias");
+        agregarCarreras("src/main/resources/materias_carrera");
     }
 
     private static void agregarCarreras(String ruta) {
@@ -39,13 +38,17 @@ public class MateriaCarreraCache {
         List<Materia> listMateriasInmodificable = Collections.unmodifiableList(materias);
         LIST_CARRERAS.put(carrera, listMateriasInmodificable);
 
-        Map<String, Materia> mapaMateriasInmodificable = Collections.unmodifiableMap(MAP_CARRERAS.get(carrera));
-        MAP_CARRERAS.put(carrera, mapaMateriasInmodificable);
+        Map<String, Materia> mapaMaterias = new HashMap<>((int)(materias.size() * 1.5));
+        for (Materia materia : materias) {
+            mapaMaterias.put(materia.getClave(), materia);
+        }
+        mapaMaterias = Collections.unmodifiableMap(mapaMaterias);
+        MAP_CARRERAS.put(carrera, mapaMaterias);
     }
 
     private static Carrera obtenerCarrera(String ruta) {
         File archivo = new File(ruta);
-        String nombre = archivo.getName();
+        String nombre = archivo.getName().replaceAll("(?i)\\.json" ,"").trim();
         Carrera carrera = Carrera.getCarrera(nombre);
         return carrera;
     }

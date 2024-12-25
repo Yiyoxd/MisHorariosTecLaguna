@@ -1,15 +1,14 @@
 package com.yiyoalfredo.mishorariosteclaguna.model;
 
-import java.time.DayOfWeek;
-
-public class MateriaClase {
+public class MateriaHorario {
     private final Materia materia;
     private final Horario horario[];
-    private String maestro;
+    private final String maestro;
 
-    public MateriaClase(Materia materia) {
+    public MateriaHorario(Materia materia, Horario[] horario, String maestro) {
         this.materia = materia;
-        horario = new Horario[5];
+        this.horario = horario;
+        this.maestro = maestro;
     }
 
     public Materia getMateria() {
@@ -22,26 +21,6 @@ public class MateriaClase {
 
     public String getMaestro() {
         return maestro;
-    }
-
-    public void setMaestro(String maestro) {
-        this.maestro = maestro;
-    }
-
-    public void agregarHorario(Horario horario) {
-        int index = getIndexDayOfWeek(horario.getDia());
-        this.horario[index] = horario;
-    }
-
-    private static int getIndexDayOfWeek(DayOfWeek day) {
-        return switch (day) {
-            case MONDAY -> 0;
-            case TUESDAY -> 1;
-            case WEDNESDAY -> 2;
-            case THURSDAY -> 3;
-            case FRIDAY -> 4;
-            default -> -1;
-        };
     }
 
     @Override
@@ -63,6 +42,4 @@ public class MateriaClase {
         sb.append(String.format(formatoLinea, "Catedrático", maestro != null ? maestro : "MAESTRO POR ASIGNAR"));
         return sb.toString();
     }
-
-
 }

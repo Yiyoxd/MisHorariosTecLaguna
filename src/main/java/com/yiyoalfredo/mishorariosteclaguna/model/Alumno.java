@@ -11,7 +11,7 @@ public class Alumno {
     private String nombre;
     private String numControl;
     private Carrera carrera;
-    private List<String> materiasCursadas;
+    private List<Materia> materiasCursadas;
 
     public Alumno() {
         this.materiasCursadas = new ArrayList<>();
@@ -22,14 +22,13 @@ public class Alumno {
             @JsonProperty("nombre") String nombre,
             @JsonProperty("numControl") String numControl,
             @JsonProperty("carrera") Carrera carrera,
-            @JsonProperty("materiasCursadas") List<String> materiasCursadas) {
+            @JsonProperty("materiasCursadas") List<Materia> materiasCursadas) {
         this.nombre = nombre;
         this.numControl = numControl;
         this.carrera = carrera;
         this.materiasCursadas = materiasCursadas == null ? new ArrayList<>() : materiasCursadas;
     }
 
-    // Getters y Setters
     public String getNombre() {
         return nombre;
     }
@@ -46,12 +45,20 @@ public class Alumno {
         this.numControl = numControl;
     }
 
-    public List<String> getMateriasCursadas() {
+    public List<Materia> getMateriasCursadas() {
         return new ArrayList<>(materiasCursadas);
     }
 
-    public void setMateriasCursadas(List<String> materiasCursadas) {
+    public void setMateriasCursadas(List<Materia> materiasCursadas) {
         this.materiasCursadas = materiasCursadas == null ? new ArrayList<>() : materiasCursadas;
+    }
+
+    public Carrera getCarrera() {
+        return carrera;
+    }
+
+    public void setCarrera(Carrera carrera) {
+        this.carrera = carrera;
     }
 
     @Override

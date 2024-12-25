@@ -57,4 +57,19 @@ public class Materia {
 
         return sb.toString();
     }
+
+    @Override
+    public int hashCode() {
+        return nombre.hashCode() + clave.hashCode();
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (!(o instanceof Materia other)) {
+            return false;
+        }
+
+        return nombre.equals(other.nombre) && clave.equals(other.clave);
+    }
 }

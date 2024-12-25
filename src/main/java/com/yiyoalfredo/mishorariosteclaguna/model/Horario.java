@@ -7,6 +7,13 @@ import java.time.DayOfWeek;
 import java.time.LocalTime;
 
 public class Horario {
+    public static final DayOfWeek[] WEEK = {
+        DayOfWeek.MONDAY,
+        DayOfWeek.TUESDAY,
+        DayOfWeek.WEDNESDAY,
+        DayOfWeek.THURSDAY,
+        DayOfWeek.FRIDAY
+    };
 
     private final DayOfWeek dia;
     private final LocalTime horaInicio;

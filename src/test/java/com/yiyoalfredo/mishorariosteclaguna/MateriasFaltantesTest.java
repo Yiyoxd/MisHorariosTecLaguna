@@ -2,10 +2,8 @@ package com.yiyoalfredo.mishorariosteclaguna;
 
 import com.yiyoalfredo.mishorariosteclaguna.model.Alumno;
 import com.yiyoalfredo.mishorariosteclaguna.model.Materia;
-import com.yiyoalfredo.mishorariosteclaguna.service.AlumnoService;
 import com.yiyoalfredo.mishorariosteclaguna.service.KardexParser;
-import com.yiyoalfredo.mishorariosteclaguna.service.MateriaService;
-import org.junit.jupiter.api.Test;
+import com.yiyoalfredo.mishorariosteclaguna.service.MateriaHorarioCache;
 
 import java.io.IOException;
 import java.util.*;
@@ -16,14 +14,10 @@ public class MateriasFaltantesTest {
     private static final int PORCENTAJE_70 = (int)(0.7 * TOTAL_CREDITOS);
 
     public static void main(String[] args) throws IOException {
-        String ruta = "src/main/resources/SISTEMAS.JSON";
-        MateriaService ms = new MateriaService();
-        ms.cargarMateriasDesdeArchivo(ruta);
-        List<Materia> materiasSistemas = ms.obtenerMaterias();
-
         KardexParser kp = new KardexParser();
         Alumno alu = kp.parseKardex("C:\\Users\\yiyoa\\Downloads\\Yiyo\\frmKardex.aspx.html");
-        Map<String, Materia> faltantes = obtenerMateriasFaltantes(alu.getMateriasCursadas(), materiasSistemas);
+        Map<String, Materia> faltantes = getMapMateriasFaltantes(alu);
+
         System.out.println("Materias que se pueden cargar :");
         for (var materia : faltantes.entrySet()) {
             boolean esPosible = true;
@@ -40,26 +34,25 @@ public class MateriasFaltantesTest {
         }
     }
 
-    private static Map<String, Materia> obtenerMateriasFaltantes(List<String> cursadas, List<Materia> total) {
-        Map<String, Materia> faltantes = new HashMap<String, Materia>();
-        for (Materia m : total) {
-            faltantes.put(m.getClave(), m);
+    public static Map<String, Materia> getMapMateriasFaltantes(Alumno alu) {
+        List<Materia> cursadas = alu.getMateriasCursadas();
+        Map<String, Materia> todas = MateriaHorarioCache.getMapMateriasCopy(alu.getCarrera());
+
+        for (Materia materia : cursadas) {
+            todas.remove(materia.getClave());
         }
 
-        int creditosAlumno = 0;
-        for (String m : cursadas) {
-            creditosAlumno += faltantes.get(m).getCreditos();
-            faltantes.remove(m);
+        return todas;
+    }
+
+    public static List<Materia> getListMateriasFaltantes(Alumno alu) {
+        List<Materia> cursadas = alu.getMateriasCursadas();
+        Map<String, Materia> todas = MateriaHorarioCache.getMapMateriasCopy(alu.getCarrera());
+
+        for (Materia materia : cursadas) {
+            todas.remove(alu.getCarrera());
         }
 
-        if (creditosAlumno >= PORCENTAJE_60) {
-            faltantes.remove("P60");
-        }
-
-        if (creditosAlumno >= PORCENTAJE_70) {
-            faltantes.remove("P70");
-        }
-
-        return faltantes;
+        return new ArrayList<>(todas.values());
     }
 }

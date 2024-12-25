@@ -12,17 +12,17 @@ import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 public class KardexParser {
-
     public Alumno parseKardex(File file) throws IOException {
         Document document = Jsoup.parse(file, "UTF-8");
 
         String nombre = extractNombre(document);
         Carrera carrera = extractCarrera(document);
-        List<String> materiasCursadas = extractMaterias(document);
+        List<Materia> materiasCursadas = extractMaterias(document, carrera);
 
-        return new Alumno(nombre, "DESCONOCIDO", carrera, materiasCursadas);
+        return new Alumno(nombre, "", carrera, materiasCursadas);
     }
 
     public Alumno parseKardex(String rutaArchivo) throws IOException {
@@ -39,15 +39,14 @@ public class KardexParser {
         Element carreraElement = document.getElementById("MainContent_lblCarrera");
         if (carreraElement != null) {
             String carreraTexto = carreraElement.text().trim();
-            if (carreraTexto.equalsIgnoreCase("INGENIERIA EN SISTEMAS COMPUTACIONALES")) {
-                return Carrera.INGENIERIA_EN_SISTEMAS_COMPUTACIONALES;
-            }
+            return Carrera.getCarrera(carreraTexto);
         }
         return null;
     }
 
-    private List<String> extractMaterias(Document document) {
-        List<String> materias = new ArrayList<>();
+    private List<Materia> extractMaterias(Document document, Carrera carrera) {
+        Map<String, Materia> materiasCarrera = MateriaHorarioCache.getMapMaterias(carrera);
+        List<Materia> materias = new ArrayList<>();
         Element table = document.getElementById("MainContent_GridView1");
 
         if (table != null) {
@@ -56,7 +55,8 @@ public class KardexParser {
                 Elements cols = row.select("td");
                 if (cols.size() >= 3) {
                     String clave = cols.get(0).text().trim();
-                    materias.add(clave);
+                    Materia materia = materiasCarrera.get(clave);
+                    materias.add(materia);
                 }
             }
         }

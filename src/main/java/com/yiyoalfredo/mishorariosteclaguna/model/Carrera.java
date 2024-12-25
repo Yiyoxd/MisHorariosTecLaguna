@@ -9,4 +9,12 @@ public enum Carrera {
             case INGENIERIA_EN_SISTEMAS_COMPUTACIONALES -> "INGENIERIA EN SISTEMAS COMPUTACIONALES";
         };
     }
+
+    public static Carrera getCarrera(String carrera) {
+        carrera = carrera.toUpperCase();
+        return switch (carrera) {
+            case "INGENIERIA EN SISTEMAS COMPUTACIONALES" -> INGENIERIA_EN_SISTEMAS_COMPUTACIONALES;
+            default -> null;
+        };
+    }
 }

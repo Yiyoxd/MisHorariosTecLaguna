@@ -381,19 +381,25 @@
   {
     "nombre": "PORCENTAJE 60",
     "clave": "P60",
-    "prerequisitos": [],
+    "prerequisitos": [
+      "P60"
+    ],
     "creditos": 0
   },
   {
     "nombre": "PORCENTAJE 70",
     "clave": "P70",
-    "prerequisitos": [],
+    "prerequisitos": [
+      "P70"
+    ],
     "creditos": 0
   },
   {
     "nombre": "ACTIVIDADES COMPLEMENTARIOS",
     "clave": "A1C",
-    "prerequisitos": [],
+    "prerequisitos": [
+      "A1C"
+    ],
     "creditos": 5
   },
   {
@@ -402,7 +408,7 @@
     "prerequisitos": [
       "P70"
     ],
-    "creditos": 5
+    "creditos": 10
   },
   {
     "nombre": "RESIDENCIA PROFESIONAL",

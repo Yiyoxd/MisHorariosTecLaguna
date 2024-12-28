@@ -10,7 +10,7 @@ import java.util.*;
 
 public class MateriaHorarioCache {
     private static final Map<Carrera, List<MateriaHorario>> LIST_CARRERAS;
-    private static final Map<Carrera, Map<String, MateriaHorario>> MAP_CARRERAS;
+    private static final Map<Carrera, Map<Materia, List<MateriaHorario>>> MAP_CARRERAS;
 
     private MateriaHorarioCache() {}
 
@@ -44,9 +44,14 @@ public class MateriaHorarioCache {
         List<MateriaHorario> listMateriasInmodificable = Collections.unmodifiableList(materias);
         LIST_CARRERAS.put(carrera, listMateriasInmodificable);
 
-        Map<String, MateriaHorario> mapaMaterias = new HashMap<>((int)(materias.size() * 1.5));
-        for (MateriaHorario materia : materias) {
-            mapaMaterias.put(materia.getMateria().getClave(), materia);
+        Map<Materia, List<MateriaHorario>> mapaMaterias = new HashMap<>();
+        for (MateriaHorario materiaHorario : materias) {
+            List<MateriaHorario> horarios = mapaMaterias.get(materiaHorario.getMateria());
+            if (horarios == null) {
+                horarios = new ArrayList<>();
+                mapaMaterias.put(materiaHorario.getMateria(), horarios);
+            }
+            horarios.add(materiaHorario);
         }
         mapaMaterias = Collections.unmodifiableMap(mapaMaterias);
         MAP_CARRERAS.put(carrera, mapaMaterias);
@@ -63,7 +68,7 @@ public class MateriaHorarioCache {
         return LIST_CARRERAS.get(carrera);
     }
 
-    public static Map<String, MateriaHorario> getMapMaterias(Carrera carrera) {
+    public static Map<Materia, List<MateriaHorario>> getMapMaterias(Carrera carrera) {
         return MAP_CARRERAS.get(carrera);
     }
 
@@ -71,7 +76,7 @@ public class MateriaHorarioCache {
         return new ArrayList<>(LIST_CARRERAS.get(carrera));
     }
 
-    public static Map<String, MateriaHorario> getMapMateriasCopy(Carrera carrera) {
+    public static Map<Materia, List<MateriaHorario>> getMapMateriasCopy(Carrera carrera) {
         return new HashMap<>(MAP_CARRERAS.get(carrera));
     }
 }

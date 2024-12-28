@@ -68,4 +68,8 @@ public class MateriaCarreraCache {
     public static Map<String, Materia> getMapMateriasCopy(Carrera carrera) {
         return new HashMap<>(MAP_CARRERAS.get(carrera));
     }
+
+    public static Materia getMateria(String clave, Carrera carrera) {
+        return MAP_CARRERAS.get(carrera).get(clave);
+    }
 }

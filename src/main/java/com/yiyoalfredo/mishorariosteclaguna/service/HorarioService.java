@@ -9,18 +9,30 @@ public class HorarioService {
     private HorarioService() {}
 
     public static boolean chocan(Horario horario1, Horario horario2) {
-        LocalTime horarioInicio1 = horario1.getHoraFin();
-        LocalTime horarioFin2 = horario2.getHoraInicio();
-        if (horarioInicio1.isAfter(horarioFin2) || horarioInicio1.equals(horarioFin2)) {
+        if (horario1 == null || horario2 == null) {
             return false;
         }
 
-        LocalTime horarioFin1 = horario1.getHoraFin();
-        LocalTime horarioInicio2 = horario2.getHoraInicio();
-        if (horarioFin1.isBefore(horarioInicio2) || horarioFin2.equals(horarioInicio1)) {
+        LocalTime inicio1 = horario1.getHoraInicio();
+        LocalTime fin1 = horario1.getHoraFin();
+        LocalTime inicio2 = horario2.getHoraInicio();
+        LocalTime fin2 = horario2.getHoraFin();
+
+        return (inicio1.isBefore(fin2) && fin1.isAfter(inicio2));
+    }
+
+
+    public static boolean chocan(Horario[] horario1, Horario[] horario2) {
+        if (horario1 == null || horario2 == null) {
             return false;
         }
 
-        return true;
+        for (int i = 0; i < horario1.length; i++) {
+            if (chocan(horario1[i], horario2[i])) {
+                return true;
+            }
+        }
+
+        return false;
     }
 }

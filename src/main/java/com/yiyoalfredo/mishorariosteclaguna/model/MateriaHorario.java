@@ -1,6 +1,6 @@
 package com.yiyoalfredo.mishorariosteclaguna.model;
 
-public class MateriaHorario {
+public class MateriaHorario implements Comparable<MateriaHorario> {
     private static final String MAESTRO_DEFAULT = "MAESTRO POR ASIGNAR";
     private final Materia materia;
     private final Horario horario[];
@@ -48,5 +48,12 @@ public class MateriaHorario {
 
         sb.append(String.format(formatoLinea, "Catedrático", maestro != null ? maestro : MAESTRO_DEFAULT));
         return sb.toString();
+    }
+
+    public int compareTo(MateriaHorario o) {
+        if (this.horario[0] == null) {
+            return -1;
+        }
+        return this.horario[0].getHoraFin().compareTo(o.horario[0].getHoraFin());
     }
 }

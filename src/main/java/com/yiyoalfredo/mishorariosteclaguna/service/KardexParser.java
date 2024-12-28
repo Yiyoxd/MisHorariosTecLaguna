@@ -22,13 +22,16 @@ public class KardexParser {
         Carrera carrera = extractCarrera(document);
         List<Materia> materiasCursadas = extractMaterias(document, carrera);
 
-        return new Alumno(nombre, "", carrera, materiasCursadas);
+        Alumno alumno = new Alumno(nombre, "", carrera, materiasCursadas);
+        AlumnoService.addMateriasEspeciales(alumno);
+        return alumno;
     }
 
     public Alumno parseKardex(String rutaArchivo) throws IOException {
         File file = new File(rutaArchivo);
         return parseKardex(file);
     }
+
 
     private String extractNombre(Document document) {
         Element nombreElement = document.getElementById("MainContent_lblNombre");

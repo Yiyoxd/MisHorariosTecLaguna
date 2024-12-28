@@ -5,9 +5,7 @@ public enum Carrera {
 
     @Override
     public String toString() {
-        return switch (this) {
-            case INGENIERIA_EN_SISTEMAS_COMPUTACIONALES -> "INGENIERIA EN SISTEMAS COMPUTACIONALES";
-        };
+        return this.name().replaceAll("_", " ");
     }
 
     public static Carrera getCarrera(String carrera) {

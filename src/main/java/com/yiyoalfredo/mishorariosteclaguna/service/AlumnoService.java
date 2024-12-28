@@ -3,6 +3,7 @@ package com.yiyoalfredo.mishorariosteclaguna.service;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.yiyoalfredo.mishorariosteclaguna.model.Alumno;
 import com.yiyoalfredo.mishorariosteclaguna.model.Materia;
+import com.yiyoalfredo.mishorariosteclaguna.model.MateriaHorario;
 
 import java.io.File;
 import java.io.IOException;
@@ -11,6 +12,8 @@ import java.util.List;
 import java.util.Map;
 
 public class AlumnoService {
+    private static final int PORCENTAJE_60 = 156;
+    private static final int PORCENTAJE_70 = 182;
     private final ObjectMapper mapper;
 
     public AlumnoService() {
@@ -26,13 +29,13 @@ public class AlumnoService {
         }
     }
 
-    public int getCreditos() {
+    public static int getCreditos(Alumno alu) {
         int creditos = 0;
-        for (Materia m : new Alumno().getMateriasCursadas()) {
+        for (Materia m : alu.getMateriasCursadas()) {
             creditos += m.getCreditos();
         }
 
-        return 0;
+        return creditos;
     }
 
     public static Map<String, Materia> getMapMateriasFaltantes(Alumno alu) {
@@ -51,9 +54,22 @@ public class AlumnoService {
         Map<String, Materia> todas = MateriaCarreraCache.getMapMateriasCopy(alu.getCarrera());
 
         for (Materia materia : cursadas) {
-            todas.remove(alu.getCarrera());
+            todas.remove(materia.getClave());
         }
 
         return new ArrayList<>(todas.values());
+    }
+
+    public static void addMateriasEspeciales(Alumno alu) {
+        List<Materia> materias = alu.getMateriasCursadas();
+        int creditos = getCreditos(alu);
+        if (creditos >= PORCENTAJE_60) {
+            Materia materia = MateriaCarreraCache.getMateria("P60", alu.getCarrera());
+            materias.add(materia);
+        }
+        if (creditos >= PORCENTAJE_70) {
+            Materia materia = MateriaCarreraCache.getMateria("P70", alu.getCarrera());
+            materias.add(materia);
+        }
     }
 }

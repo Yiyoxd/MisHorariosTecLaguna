@@ -312,7 +312,7 @@
     "nombre": "CONMUTACION Y ENRUTAMIENTO EN REDES DE DATOS",
     "clave": "E17",
     "prerequisitos": [
-      "D16"
+      "E16"
     ],
     "creditos": 5
   },
@@ -353,7 +353,9 @@
   {
     "nombre": "ADMINISTRACIÓN DE REDES",
     "clave": "E18",
-    "prerequisitos": [],
+    "prerequisitos": [
+      "E16"
+    ],
     "creditos": 4
   },
   {

@@ -43,8 +43,4 @@ public class MateriaEspecialService {
     public static boolean esMateriaEspecial(Materia materia) {
         return materiasEspeciales.contains(materia);
     }
-
-    public static void main(String[] args) {
-        System.out.println("xd");
-    }
 }

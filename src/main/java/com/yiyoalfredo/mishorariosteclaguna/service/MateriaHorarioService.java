@@ -6,7 +6,6 @@ import com.yiyoalfredo.mishorariosteclaguna.model.Materia;
 import com.yiyoalfredo.mishorariosteclaguna.model.MateriaHorario;
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
-import org.jsoup.nodes.Element;
 import org.jsoup.select.Elements;
 
 import java.io.File;
@@ -17,8 +16,15 @@ import java.util.*;
 
 public class MateriaHorarioService {
 
-    public List<MateriaHorario> cargarMateriasDesdeHTML(String htmlFilePath, Carrera carrera) throws IOException {
-        Document doc = Jsoup.parse(new File(htmlFilePath), "UTF-8");
+    public List<MateriaHorario> cargarMateriasDesdeHTML(String htmlFilePath, Carrera carrera) {
+        Document doc = null;
+        try {
+            doc = Jsoup.parse(new File(htmlFilePath), "UTF-8");
+        } catch (IOException e) {
+            System.out.println("Error al leer el HTML de los horarios");
+            throw new RuntimeException(e);
+        }
+
         List<MateriaHorario> materiasClase = new ArrayList<>();
         Map<String, Materia> materias = MateriaCarreraCache.getMapMaterias(carrera);
 
@@ -51,7 +57,7 @@ public class MateriaHorarioService {
     }
 
     private Horario parseHorario(DayOfWeek dia, String texto) {
-        if (texto.isEmpty() || !texto.contains("/")) {
+        if (!texto.contains("/")) {
             return null;
         }
 

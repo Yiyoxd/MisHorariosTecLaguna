@@ -14,10 +14,11 @@ public class MateriaCarreraCache {
     static {
         LIST_CARRERAS = new HashMap<>();
         MAP_CARRERAS = new HashMap<>();
-        agregarCarreras("src/main/resources/materias_carrera");
+        agregarCarreras();
     }
 
-    private static void agregarCarreras(String ruta) {
+    private static void agregarCarreras() {
+        String ruta = "src/main/resources/materias_carrera";
         File directorio = new File(ruta);
         File[] archivos = directorio.listFiles();
         for (File archivo : archivos) {

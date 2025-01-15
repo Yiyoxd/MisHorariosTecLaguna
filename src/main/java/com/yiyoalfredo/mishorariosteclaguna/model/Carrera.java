@@ -15,4 +15,10 @@ public enum Carrera {
             default -> null;
         };
     }
+
+    public String getSimpleName() {
+        return switch (this) {
+            case INGENIERIA_EN_SISTEMAS_COMPUTACIONALES -> "Sistemas";
+        };
+    }
 }

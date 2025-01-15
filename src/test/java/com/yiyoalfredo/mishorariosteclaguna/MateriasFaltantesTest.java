@@ -15,7 +15,7 @@ public class MateriasFaltantesTest {
     private static final int PORCENTAJE_70 = (int)(0.7 * TOTAL_CREDITOS);
 
     public static void main(String[] args) throws IOException {
-        Alumno alu = new KardexParser().parseKardex("C:\\Users\\yiyoa\\Downloads\\Yiyo\\frmKardex.aspx.html");
+        Alumno alu = new KardexParser().parseKardexFromPath("C:\\Users\\yiyoa\\Downloads\\Yiyo\\frmKardex.aspx.html", "22130550");
         Map<String, Materia> faltantes = AlumnoService.getMapMateriasFaltantes(alu);
 
         System.out.println("Materias que se pueden cargar :");

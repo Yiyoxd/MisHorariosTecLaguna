@@ -5,23 +5,45 @@ import com.yiyoalfredo.mishorariosteclaguna.model.Materia;
 import com.yiyoalfredo.mishorariosteclaguna.model.MateriaHorario;
 
 import java.io.File;
+import java.io.FileWriter;
 import java.io.IOException;
 import java.util.*;
 
 public class MateriaHorarioCache {
     private static final Map<Carrera, List<MateriaHorario>> LIST_CARRERAS;
     private static final Map<Carrera, Map<Materia, List<MateriaHorario>>> MAP_CARRERAS;
+    private static final String RUTA = "src/main/resources/horarios_carrera";
 
     private MateriaHorarioCache() {}
 
     static {
         LIST_CARRERAS = new HashMap<>();
         MAP_CARRERAS = new HashMap<>();
-        agregarCarreras("src/main/resources/horarios_carrera");
+        agregarHorariosFromWeb();
+        agregarCarreras();
     }
 
-    private static void agregarCarreras(String ruta) {
-        File directorio = new File(ruta);
+    private static void agregarHorariosFromWeb() {
+        for (Carrera carrera : Carrera.values()) {
+            String nombreSimpe = carrera.getSimpleName();
+            String html = DataExtractService.fetchHtmlForCareer(nombreSimpe);
+
+            if (html != null && html.contains("Grupo")) {
+                String nombreArchivo = RUTA + "/" + carrera.toString() + ".html";
+                File archivo = new File(nombreArchivo);
+
+                try (FileWriter writer = new FileWriter(archivo)) {
+                    writer.write(html);
+                } catch (IOException e) {
+                    System.err.println("Error al escribir el archivo " + nombreArchivo);
+                    e.printStackTrace();
+                }
+            }
+        }
+    }
+
+    private static void agregarCarreras() {
+        File directorio = new File(RUTA);
         File[] archivos = directorio.listFiles();
         for (File archivo : archivos) {
             String rutaArchivo = archivo.getPath();
@@ -32,12 +54,8 @@ public class MateriaHorarioCache {
     private static void agregarCarrera(String ruta) {
         MateriaHorarioService service = new MateriaHorarioService();
         Carrera carrera = obtenerCarrera(ruta);
-        try {
-            List<MateriaHorario> materias = service.cargarMateriasDesdeHTML(ruta, carrera);
-            agregarCache(carrera, materias);
-        } catch (IOException e) {
-            throw new RuntimeException(e);
-        }
+        List<MateriaHorario> materias = service.cargarMateriasDesdeHTML(ruta, carrera);
+        agregarCache(carrera, materias);
     }
 
     private static void agregarCache(Carrera carrera, List<MateriaHorario> materias) {
@@ -46,11 +64,7 @@ public class MateriaHorarioCache {
 
         Map<Materia, List<MateriaHorario>> mapaMaterias = new HashMap<>();
         for (MateriaHorario materiaHorario : materias) {
-            List<MateriaHorario> horarios = mapaMaterias.get(materiaHorario.getMateria());
-            if (horarios == null) {
-                horarios = new ArrayList<>();
-                mapaMaterias.put(materiaHorario.getMateria(), horarios);
-            }
+            List<MateriaHorario> horarios = mapaMaterias.computeIfAbsent(materiaHorario.getMateria(), k -> new ArrayList<>());
             horarios.add(materiaHorario);
         }
         mapaMaterias = Collections.unmodifiableMap(mapaMaterias);
@@ -59,9 +73,8 @@ public class MateriaHorarioCache {
 
     private static Carrera obtenerCarrera(String ruta) {
         File archivo = new File(ruta);
-        String nombre = archivo.getName().replaceAll("(?i)\\.html" ,"").trim();;
-        Carrera carrera = Carrera.getCarrera(nombre);
-        return carrera;
+        String nombre = archivo.getName().replaceAll("(?i)\\.html" ,"").trim();
+        return Carrera.getCarrera(nombre);
     }
 
     public static List<MateriaHorario> getListMaterias(Carrera carrera) {

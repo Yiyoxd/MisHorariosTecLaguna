@@ -46,6 +46,10 @@ public class Alumno {
     }
 
     public List<Materia> getMateriasCursadas() {
+        return materiasCursadas;
+    }
+
+    public List<Materia> getMateriasCursadasCopy() {
         return new ArrayList<>(materiasCursadas);
     }
 

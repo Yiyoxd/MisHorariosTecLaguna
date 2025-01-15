@@ -3,7 +3,6 @@ package com.yiyoalfredo.mishorariosteclaguna.service;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.yiyoalfredo.mishorariosteclaguna.model.Alumno;
 import com.yiyoalfredo.mishorariosteclaguna.model.Materia;
-import com.yiyoalfredo.mishorariosteclaguna.model.MateriaHorario;
 
 import java.io.File;
 import java.io.IOException;
@@ -50,18 +49,15 @@ public class AlumnoService {
     }
 
     public static List<Materia> getListMateriasFaltantes(Alumno alu) {
-        List<Materia> cursadas = alu.getMateriasCursadas();
-        Map<String, Materia> todas = MateriaCarreraCache.getMapMateriasCopy(alu.getCarrera());
-
-        for (Materia materia : cursadas) {
-            todas.remove(materia.getClave());
-        }
+        Map<String, Materia> todas = getMapMateriasFaltantes(alu);
 
         return new ArrayList<>(todas.values());
     }
 
     public static void addMateriasEspeciales(Alumno alu) {
         List<Materia> materias = alu.getMateriasCursadas();
+        materias.add(MateriaCarreraCache.getMateria("T11", alu.getCarrera()));
+
         int creditos = getCreditos(alu);
         if (creditos >= PORCENTAJE_60) {
             Materia materia = MateriaCarreraCache.getMateria("P60", alu.getCarrera());

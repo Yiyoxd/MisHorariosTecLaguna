@@ -10,28 +10,37 @@ import org.jsoup.select.Elements;
 
 import java.io.File;
 import java.io.IOException;
+import java.nio.file.Files;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
 public class KardexParser {
-    public Alumno parseKardex(File file) throws IOException {
-        Document document = Jsoup.parse(file, "UTF-8");
+    public Alumno parseKardexFromFile(File file, String matricula)  {
+        try {
+            String html = Files.readString(file.toPath());
+            return parseKardexFromHtml(html, matricula);
+        } catch (IOException e) {
+            throw new RuntimeException(e.getMessage());
+        }
+    }
+
+    public Alumno parseKardexFromHtml(String html, String matricula) {
+        Document document = Jsoup.parse(html, "UTF-8");
 
         String nombre = extractNombre(document);
         Carrera carrera = extractCarrera(document);
         List<Materia> materiasCursadas = extractMaterias(document, carrera);
 
-        Alumno alumno = new Alumno(nombre, "", carrera, materiasCursadas);
+        Alumno alumno = new Alumno(nombre, matricula, carrera, materiasCursadas);
         AlumnoService.addMateriasEspeciales(alumno);
         return alumno;
     }
 
-    public Alumno parseKardex(String rutaArchivo) throws IOException {
+    public Alumno parseKardexFromPath(String rutaArchivo, String matricula) {
         File file = new File(rutaArchivo);
-        return parseKardex(file);
+        return parseKardexFromFile(file, matricula);
     }
-
 
     private String extractNombre(Document document) {
         Element nombreElement = document.getElementById("MainContent_lblNombre");
@@ -57,7 +66,7 @@ public class KardexParser {
             for (Element row : rows) {
                 Elements cols = row.select("td");
                 if (cols.size() >= 3) {
-                    String clave = cols.get(0).text().trim();
+                    String clave = cols.getFirst().text().trim();
                     Materia materia = materiasCarrera.get(clave);
                     materias.add(materia);
                 }
@@ -65,5 +74,10 @@ public class KardexParser {
         }
 
         return materias;
+    }
+
+    public Alumno parseKardexFromWeb(String matricula, String pass) {
+        String html = LoginAutomation.getHTML(matricula, pass);
+        return parseKardexFromHtml(html, matricula);
     }
 }

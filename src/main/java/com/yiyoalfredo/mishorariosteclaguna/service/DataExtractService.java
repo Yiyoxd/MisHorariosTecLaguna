@@ -1,5 +1,7 @@
 package com.yiyoalfredo.mishorariosteclaguna.service;
 
+import com.yiyoalfredo.mishorariosteclaguna.excepcion.InvalidCredentialsException;
+import com.yiyoalfredo.mishorariosteclaguna.excepcion.LoginException;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
@@ -19,7 +21,7 @@ public class DataExtractService {
     static {
         System.setProperty("webdriver.chrome.driver", "./libs/chromedriver.exe");
         options.setBinary("C:\\Program Files\\BraveSoftware\\Brave-Browser\\Application\\brave.exe");
-        options.addArguments("--headless");
+        //options.addArguments("--headless");
         options.addArguments("--disable-gpu");
         options.addArguments("--window-size=1920,1080");
 

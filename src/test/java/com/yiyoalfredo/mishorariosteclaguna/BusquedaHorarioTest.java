@@ -2,6 +2,7 @@ package com.yiyoalfredo.mishorariosteclaguna;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
+import com.yiyoalfredo.mishorariosteclaguna.excepcion.LoginException;
 import com.yiyoalfredo.mishorariosteclaguna.model.*;
 import com.yiyoalfredo.mishorariosteclaguna.service.BusquedaHorario;
 import com.yiyoalfredo.mishorariosteclaguna.service.KardexParser;
@@ -17,7 +18,7 @@ public class BusquedaHorarioTest {
     private static final String PASS = "JEJE";
 
     @Test
-    public void testSize() {
+    public void testSize() throws LoginException {
         long startTime = System.currentTimeMillis();
         var horarios = xd();
         long endTime = System.currentTimeMillis();
@@ -42,7 +43,7 @@ public class BusquedaHorarioTest {
     }
 
     @Test
-    public void combinacionesConPrecarga() {
+    public void combinacionesConPrecarga() throws LoginException {
         xd();
         long timep = System.currentTimeMillis();
         var xd = xd();
@@ -52,7 +53,7 @@ public class BusquedaHorarioTest {
         guardarSoloGruposJSON(xd);
     }
 
-    public List<List<MateriaHorario>> xd() {
+    public List<List<MateriaHorario>> xd() throws LoginException {
         Alumno alu = new KardexParser().parseKardexFromWeb(MATRICULA, PASS);
 
         List<String> maestrosAEvitar = List.of("DE AVILA SANCHEZ RICARDO");

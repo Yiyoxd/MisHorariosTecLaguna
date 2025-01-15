@@ -1,5 +1,7 @@
 package com.yiyoalfredo.mishorariosteclaguna.service;
 
+import com.yiyoalfredo.mishorariosteclaguna.excepcion.InvalidCredentialsException;
+import com.yiyoalfredo.mishorariosteclaguna.excepcion.LoginException;
 import com.yiyoalfredo.mishorariosteclaguna.model.Alumno;
 import com.yiyoalfredo.mishorariosteclaguna.model.Carrera;
 import com.yiyoalfredo.mishorariosteclaguna.model.Materia;
@@ -76,8 +78,8 @@ public class KardexParser {
         return materias;
     }
 
-    public Alumno parseKardexFromWeb(String matricula, String pass) {
-        String html = LoginAutomation.getHTML(matricula, pass);
+    public Alumno parseKardexFromWeb(String matricula, String pass) throws LoginException {
+        String html = LoginAutomation.getHTMLKardex(matricula, pass);
         return parseKardexFromHtml(html, matricula);
     }
 }

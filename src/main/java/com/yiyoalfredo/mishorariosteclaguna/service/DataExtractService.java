@@ -1,7 +1,5 @@
 package com.yiyoalfredo.mishorariosteclaguna.service;
 
-import com.yiyoalfredo.mishorariosteclaguna.excepcion.InvalidCredentialsException;
-import com.yiyoalfredo.mishorariosteclaguna.excepcion.LoginException;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;

@@ -1,28 +1,23 @@
 package com.yiyoalfredo.mishorariosteclaguna.service;
 
 import com.yiyoalfredo.mishorariosteclaguna.model.MateriaHorario;
+import static com.yiyoalfredo.mishorariosteclaguna.service.BusquedaHorario.CREDITOS_MAXIMOS;
 import java.util.*;
 
 public class SortingsService {
     private SortingsService() {}
 
     public static List<List<MateriaHorario>> orderByCreditos(List<List<MateriaHorario>> horariosMaterias) {
-        Map<Integer, List<List<MateriaHorario>>> buckets = new HashMap<>();
-        int maxSum = 0;
-
+        List<List<MateriaHorario>>[] buckets = new ArrayList[CREDITOS_MAXIMOS + 1];
+        Arrays.setAll(buckets, i -> new ArrayList<>());
         for (List<MateriaHorario> horarios : horariosMaterias) {
             int sumaCreditos = horarios.stream().mapToInt(m -> m.getMateria().getCreditos()).sum();
-            maxSum = Math.max(maxSum, sumaCreditos);
-
-            List<List<MateriaHorario>> bucket = buckets.computeIfAbsent(sumaCreditos, k -> new ArrayList<>());
-            bucket.add(horarios);
+            buckets[sumaCreditos].add(horarios);
         }
 
         List<List<MateriaHorario>> sorted = new ArrayList<>(horariosMaterias.size());
-        List<List<MateriaHorario>> defaultList = new ArrayList<>();
-        for (int i = 0; i <= maxSum; i++) {
-            List<List<MateriaHorario>> bucket = buckets.getOrDefault(i, defaultList);
-            sorted.addAll(bucket);
+        for (int i = 0; i <= CREDITOS_MAXIMOS; i++) {
+            sorted.addAll(buckets[i]);
         }
 
         return sorted;

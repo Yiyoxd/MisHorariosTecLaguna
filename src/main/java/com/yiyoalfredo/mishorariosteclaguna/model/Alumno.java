@@ -2,6 +2,7 @@ package com.yiyoalfredo.mishorariosteclaguna.model;
 
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonProperty;
+import com.yiyoalfredo.mishorariosteclaguna.service.AlumnoService;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -12,9 +13,12 @@ public class Alumno {
     private String numControl;
     private Carrera carrera;
     private List<Materia> materiasCursadas;
+    private List<Materia> maateriasFaltantes;
+    private final int creditosTotales;
 
     public Alumno() {
         this.materiasCursadas = new ArrayList<>();
+        creditosTotales = 0;
     }
 
     @JsonCreator
@@ -27,6 +31,8 @@ public class Alumno {
         this.numControl = numControl;
         this.carrera = carrera;
         this.materiasCursadas = materiasCursadas == null ? new ArrayList<>() : materiasCursadas;
+        maateriasFaltantes = AlumnoService.getListMateriasFaltantes(this);
+        creditosTotales = AlumnoService.getCreditos(this);
     }
 
     public String getNombre() {
@@ -65,6 +71,14 @@ public class Alumno {
         this.carrera = carrera;
     }
 
+    public List<Materia> getMateriasFaltantes() {
+        return maateriasFaltantes;
+    }
+
+    public List<Materia> getMateriasFaltantesCopy() {
+        return new ArrayList<>(maateriasFaltantes);
+    }
+
     @Override
     public String toString() {
         return numControl + " " + nombre;
@@ -81,5 +95,9 @@ public class Alumno {
     @Override
     public int hashCode() {
         return Objects.hash(numControl, nombre);
+    }
+
+    public int getCreditosTotales() {
+        return creditosTotales;
     }
 }

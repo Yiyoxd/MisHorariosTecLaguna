@@ -1,6 +1,6 @@
 package com.yiyoalfredo.mishorariosteclaguna.excepcion;
 
-public class LoginException extends Exception {
+public class LoginException extends RuntimeException {
     public LoginException(String message) {
         super(message);
     }

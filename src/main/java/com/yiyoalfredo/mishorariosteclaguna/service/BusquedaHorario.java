@@ -5,12 +5,13 @@ import java.time.LocalTime;
 import java.util.*;
 
 public class BusquedaHorario {
+    public static final int CREDITOS_MAXIMOS = 36;
     private final Alumno alumno;
     private List<MateriaHorario> materiasABuscar;
 
     public BusquedaHorario(Alumno alumno) {
         this.alumno = alumno;
-        Set<Materia> materiasFaltantes = new HashSet<>(AlumnoService.getListMateriasFaltantes(alumno));
+        Set<Materia> materiasFaltantes = new HashSet<>(alumno.getMateriasFaltantes());
         this.materiasABuscar = materiasABuscar(materiasFaltantes);
         Collections.sort(this.materiasABuscar);
     }

@@ -18,7 +18,7 @@ public class BusquedaHorarioTest {
     private static final String PASS = "JEJE";
 
     @Test
-    public void testSize() throws LoginException {
+    public void testSize() {
         long startTime = System.currentTimeMillis();
         var horarios = xd();
         long endTime = System.currentTimeMillis();
@@ -43,7 +43,7 @@ public class BusquedaHorarioTest {
     }
 
     @Test
-    public void combinacionesConPrecarga() throws LoginException {
+    public void combinacionesConPrecarga()  {
         xd();
         long timep = System.currentTimeMillis();
         var xd = xd();
@@ -53,7 +53,7 @@ public class BusquedaHorarioTest {
         guardarSoloGruposJSON(xd);
     }
 
-    public List<List<MateriaHorario>> xd() throws LoginException {
+    public List<List<MateriaHorario>> xd(){
         Alumno alu = new KardexParser().parseKardexFromWeb(MATRICULA, PASS);
 
         List<String> maestrosAEvitar = List.of("DE AVILA SANCHEZ RICARDO");

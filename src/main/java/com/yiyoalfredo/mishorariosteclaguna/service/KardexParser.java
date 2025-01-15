@@ -78,7 +78,7 @@ public class KardexParser {
         return materias;
     }
 
-    public Alumno parseKardexFromWeb(String matricula, String pass) throws LoginException {
+    public Alumno parseKardexFromWeb(String matricula, String pass)  {
         String html = LoginAutomation.getHTMLKardex(matricula, pass);
         return parseKardexFromHtml(html, matricula);
     }
